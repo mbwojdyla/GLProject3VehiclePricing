@@ -36,16 +36,12 @@ def main(args):
     # Step 4: Write model registration details, including model name and version, into a JSON file in the specified output path.  
     
     # Load the trained model from the provided path
-    model = mlflow.sklearn.load_model(Path(args.model))
+    model = mlflow.sklearn.load_model(args.model_path)
 
     print("Registering the best trained vehicle price prediction model")
 
-    # Register the model in the MLflow Model Registry under the name "used_cars_price_prediction_model"
-    mlflow.sklearn.log_model(
-        sk_model=model,
-        registered_model_name="used_cars_price_prediction_model",  # Descriptive model name for registration
-        artifact_path="random_forest_price_regressor"  # Path to store model artifacts
-    )
+    # Log model using mlflow
+    mlflow.sklearn.log_model(model, args.model_name)
     
     # Register logged model using mlflow
     run_id = mlflow.active_run().info.run_id
